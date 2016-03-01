@@ -1,0 +1,23 @@
+{
+  "name": "sane-insane-fp",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Collateral for a talk",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickHeiner/sane-insane-fp.git"
+  },
+  "author": "Nick Heiner <nth23@cornell.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NickHeiner/sane-insane-fp/issues"
+  },
+  "homepage": "https://github.com/NickHeiner/sane-insane-fp#readme",
+  "dependencies": {
+    "lodash": "^4.5.1"
+  }
+}

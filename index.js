@@ -38,6 +38,15 @@ function query(selectStatement, whereStatement, fromStatement) {
     return transformedData;
 }
 
+
+function scope0() {
+    
+    function query(selectStatement, whereStatement, fromStatement) {
+        return applyTransformation(selectStatement, applyFilter(whereStatement, loadData(fromStatement)));
+    }
+        
+}
+
 function scope() {
     
     function query(selectStatement, whereStatement, fromStatement) {

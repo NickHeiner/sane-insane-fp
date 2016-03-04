@@ -26,9 +26,18 @@ const emailDomains =
         .filter(isValidEmail)
         .map(getDomainOfEmail);
 
-function loadData() {}
-function applyFilter() {}
-function applyTransformation() {}
+function loadData() {
+    console.log('loadData', arguments);
+    return 'loaded';
+}
+function applyFilter() {
+    console.log('applyFilter', arguments);
+    return 'filtered';
+}
+function applyTransformation() {
+    console.log('applyTransformation', arguments);
+    return 'transformed';
+}
 function pipe() {}
 
 function query(selectStatement, whereStatement, fromStatement) {
@@ -42,7 +51,8 @@ function query(selectStatement, whereStatement, fromStatement) {
 function scope0() {
     
     function query(selectStatement, whereStatement, fromStatement) {
-        return applyTransformation(selectStatement, applyFilter(whereStatement, loadData(fromStatement)));
+        return applyTransformation(selectStatement, 
+            applyFilter(whereStatement, loadData(fromStatement)));
     }
         
 }
@@ -88,3 +98,19 @@ function scope3() {
     }
     
 }
+
+function scope4() {
+    
+    function query(selectStatement, whereStatement, fromStatement) {
+        return _.flow(
+            loadData,
+            _.partial(applyFilter, whereStatement),
+            _.partial(applyTransformation, selectStatement)
+        )(fromStatement);
+    }
+    
+    query('select stmt', 'where stmt', 'from stmt');
+    
+}
+
+scope4();

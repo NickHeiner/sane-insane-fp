@@ -114,3 +114,40 @@ function scope4() {
 }
 
 scope4();
+
+function accidentalInherentComplexity() {
+    
+    function isValidPhoneNumber() {}
+    function getAreaCode() {}
+    
+    function scope() {
+        
+        function getAreaCodes(ostensiblePhoneNumbers) {
+            const areaCodes = [];
+            for (let i = 0; i < ostensiblePhoneNumbers.length; i++) {
+                const ostensiblePhoneNumber = ostensiblePhoneNumbers[i];
+                if (isValidPhoneNumber(ostensiblePhoneNumber)) {
+                    const areaCode = getAreaCode(ostensiblePhoneNumber);
+                    areaCodes.push(areaCode)
+                }
+            }
+            return areaCodes;
+        }
+        
+    }
+    
+    function scope2() {
+        
+        function getAreaCodes(ostensiblePhoneNumbers) {
+            return ostensiblePhoneNumbers
+                .filter(isValidPhoneNumber)
+                .map(getAreaCode);
+        }
+        
+    }
+    
+    
+    
+    
+    
+}

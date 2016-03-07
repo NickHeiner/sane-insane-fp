@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 function cleanUpEmails() {
-    
+
 }
 
 function isValidEmail() {
@@ -11,7 +11,7 @@ function isValidEmail() {
 }
 
 function getDomainOfEmail() {
-    
+
 }
 
 const possibleEmails = [
@@ -20,7 +20,7 @@ const possibleEmails = [
     "not-an-email address"
 ]
 
-const emailDomains = 
+const emailDomains =
     possibleEmails
         .map(cleanUpEmails)
         .filter(isValidEmail)
@@ -49,30 +49,30 @@ function query(selectStatement, whereStatement, fromStatement) {
 
 
 function scope0() {
-    
+
     function query(selectStatement, whereStatement, fromStatement) {
-        return applyTransformation(selectStatement, 
+        return applyTransformation(selectStatement,
             applyFilter(whereStatement, loadData(fromStatement)));
     }
-        
+
 }
 
 function scope() {
-    
+
     function query(selectStatement, whereStatement, fromStatement) {
         return applyTransformation(
-            selectStatement, 
+            selectStatement,
             applyFilter(
-                whereStatement, 
+                whereStatement,
                 loadData(fromStatement)
             )
         );
     }
-        
+
 }
 
 function scope2() {
-    
+
     function query(selectStatement, whereStatement, fromStatement) {
         return pipe(
             fromStatement,
@@ -81,13 +81,13 @@ function scope2() {
             filtered => applyTransformation(selectStatement, filtered)
         );
     }
-    
+
 }
 
 // Also consider talking about how currying can be bad.
 
 function scope3() {
-    
+
     function query(selectStatement, whereStatement, fromStatement) {
         return pipe(
             fromStatement,
@@ -96,11 +96,11 @@ function scope3() {
             _.partial(applyTransformation, selectStatement)
         );
     }
-    
+
 }
 
 function scope4() {
-    
+
     function query(selectStatement, whereStatement, fromStatement) {
         return _.flow(
             loadData,
@@ -108,20 +108,20 @@ function scope4() {
             _.partial(applyTransformation, selectStatement)
         )(fromStatement);
     }
-    
+
     query('select stmt', 'where stmt', 'from stmt');
-    
+
 }
 
 scope4();
 
 function accidentalInherentComplexity() {
-    
+
     function isValidPhoneNumber() {}
     function getAreaCode() {}
-    
+
     function scope() {
-        
+
         function getAreaCodes(ostensiblePhoneNumbers) {
             const areaCodes = [];
             for (let i = 0; i < ostensiblePhoneNumbers.length; i++) {
@@ -133,21 +133,95 @@ function accidentalInherentComplexity() {
             }
             return areaCodes;
         }
-        
+
     }
-    
+
     function scope2() {
-        
+
         function getAreaCodes(ostensiblePhoneNumbers) {
             return ostensiblePhoneNumbers
                 .filter(isValidPhoneNumber)
                 .map(getAreaCode);
         }
-        
+
     }
-    
-    
-    
-    
-    
+
+
+
+
+
+}
+
+function getWinnerNames(users) {
+    return _(users)
+        .filter('hasStartedGame')
+        .sortBy('score')
+        .take(3)
+        .map('name')
+        .value();
+}
+
+function scope7() {
+
+    /* global filter, sortBy, map */
+
+    function getWinnerNames(users) {
+        return _.flow(
+            users => filter(users, 'hasStartedGame'),
+            users => sortBy(users, 'score'),
+            users => users.slice(0, 3),
+            users => map(users, 'name')
+        )(users);
+    }
+
+}
+
+function scope8() {
+
+    const obj = {
+        a: [1,2,3],
+        b: 4,
+        c: [5,6],
+        d: { e: [7,8], f: 9 },
+    };
+
+    const traverse = require('traverse');
+    const leaves = traverse(obj).reduce(function(acc, el) {
+        if (this.isLeaf) {
+            return [el].concat(acc);
+        }
+        return acc;
+    }, []);
+
+    console.log(leaves);
+
+}
+
+function updateDeepProperty(obj) {
+    const clone = _.cloneDeep(obj);
+    clone.a.b.c = 'new value';
+    return clone;
+}
+
+function scope10() {
+
+    const traverse = require('traverse');
+
+    function updateDeepProperty(obj) {
+        return traverse(obj).map(function(node) {
+            if (this.path === ['a', 'b', 'c']) {
+                this.update('new value');
+            }
+        });
+    }
+
+}
+
+function scope9() {
+
+    // obj is an ImmutableJS map
+    function updateDeepProperty(obj) {
+        return obj.setIn(['a', 'b', 'c'], 'new value');
+    }
+
 }
